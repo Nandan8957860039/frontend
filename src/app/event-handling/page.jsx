@@ -22,7 +22,7 @@ const EventHandling = () => {
             <button className="bg-black p-3 rounded mt-4 text-white" onClick={() => { alert('button was clicked') }}>click me</button>
             <input
                 className="w-full bg-grey-200 border py-1 px-3 rounded mt-4"
-                onChange={(e) => { console.log("e.target.value"); }}
+                onChange={(e) => { console.log(e.target.value); }}
                 type="text" />
             <input type="color" className='mt-5'
                 onChange={(e) => { console.log(document.body.style.backgroundcolor = e.target.value) }}
