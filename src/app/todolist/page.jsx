@@ -3,17 +3,27 @@ import React, { useState } from 'react'
 
 const todolist = () => {
     const [count, setCount] = useState(0);
-    const [taskList, setTasklist] = useState([
-        { text: 'learn HTMl', completed: false, added: new Date() },
-        { text: 'learn Css', completed: false, added: new Date() },
-        { text: 'learn 3s', completed: false, added: new Date() },
-    ]);
+    const [taskList, setTasklist] = useState([]);
 
     const addTask = (e) => {
-        if (e.code === 'enter') {
+        if (e.code === 'Enter') {
             console.log(e.target.value)
+            const newTask = { text: e.target.value, completed: false, added: new Date() }
+            setTasklist([newTask, ...taskList]);
             e.target.value = '';
         }
+    }
+    const deleteTask = (index) => {
+
+        console.log(index);
+        const temp = taskList;
+        temp.splice(index, 1);
+        setTasklist([...temp]);
+    }
+    const completeTask = (index) => {
+        const temp = taskList;
+        temp[index].completed = !temp[index].completed;
+        setTasklist([...temp])
     }
     return (
         <div>
@@ -32,10 +42,19 @@ const todolist = () => {
 
                 <div>{
                     taskList.map((task, index) => {
-                        return <div key={index}><p>{task.text}</p>
+                        return <div key={index}>
+                            {task.completed ? (
+                                <p className='bg-green-600 text-white font-bold px-3 w-fit rounded-full'>finished</p>
+                            ) : (
+                                <p className="bg-yellow-600 text-white font-bold px-3 w-fit rounded-full">Pending</p>
+                            )}
+                            <p className={'text-lg '+(task.completed && 'line-through')}>{task.text}</p>
                             <div className='mt-4 flex justify-end gap-3'>
-                                <button className="bg-blue-500 text-white px-4 py-1 rounded-full">complete</button>
                                 <button
+                                    onClick={() => { completeTask(index) }}
+                                    className="bg-blue-500 text-white px-4 py-1 rounded-full">complete</button>
+                                <button
+                                    onClick={() => { deleteTask(index) }}
                                     className='bg-red-500 text-white px-4 py-1 rounded-full'>delete</button>
                             </div>
                         </div>
